@@ -4,16 +4,53 @@ import PropTypes from 'prop-types';
 import AppFrame from './../components/AppFrame'
 import { getCustomerByDni } from './../selectors/customers'
 import { Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import CustomerEdit from './../components/CustomerEdit'
 import CustomerData from './../components/CustomerData'
+import { fetchCustomers } from './../actions/fetchCustomers'
+import { updateCustomer } from './../actions/updateCustomer'
+import { SubmissionError } from 'redux-form';
 
 class CustomerContainer extends Component {
-    //<p>Datos del cliente: {this.props.customer.name}</p>
+    
+    componentDidMount() {
+        if(!this.props.customer){
+            this.props.fetchCustomers();
+        }
+    }
+    
+    handleSubmit = values => {
+        //console.log(JSON.stringify(values));
+        const { id }  = values;
+        return this.props.updateCustomer(id, values).then( r => {
+            if (r.error) {
+                throw new SubmissionError(r.payload);
+            }
+        });
+    }
+
+    handleOnBack = () => {
+        this.props.history.goBack();
+    }
+
+    handleSubmitSuccess = () => {
+        this.props.history.goBack();
+    }
+
     renderBody = () => (
         <Route path="/customers/:dni/edit" children= {  
             ({ match }) => {
-                const CustomerControl = match ? CustomerEdit : CustomerData;
-                return <CustomerControl {...this.props.customer} />
+
+                if(this.props.customer){
+                    const CustomerControl = match ? CustomerEdit : CustomerData;
+                    return <CustomerControl {...this.props.customer} 
+                        onSubmit={this.handleSubmit}
+                        onSubmitSuccess={this.handleSubmitSuccess} 
+                        onBack={this.handleOnBack} />
+
+                }
+
+                return null;
             }
         }/>
     )
@@ -33,11 +70,16 @@ class CustomerContainer extends Component {
 CustomerContainer.propTypes = {
 
     dni: PropTypes.string.isRequired,
-    customer: PropTypes.object.isRequired,
+    customer: PropTypes.object,
+    fetchCustomers: PropTypes.func.isRequired,
+    updateCustomer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
     customer: getCustomerByDni(state, props)
 })
 
-export default connect(mapStateToProps, null)(CustomerContainer);
+export default withRouter(connect(mapStateToProps, {
+    fetchCustomers,
+    updateCustomer
+})(CustomerContainer));

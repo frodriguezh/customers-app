@@ -1,20 +1,23 @@
 {
   "customers": [
     {
+      "id": "27000000",
       "dni": "27000000",
       "name": "Juan Perez",
       "age": 37
-  },
-  {
-      "dni": "30000000",
-      "name": "Fernando Rodriguez",
-      "age": 35
-  },
-  {
+    },
+    {
+      "id": "30000001",
+      "dni": "30000001",
+      "name": "FERNANDO RODRIGUEZ H",
+      "age": 40
+    },
+    {
+      "id": "33000000",
       "dni": "33000000",
-      "name": "Felipe Avello",
+      "name": "Felipe Avello v",
       "age": 32
-  }
+    }
   ],
   "posts": [
     {

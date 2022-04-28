@@ -9,14 +9,14 @@
     {
       "id": "30000001",
       "dni": "30000001",
-      "name": "FERNANDO RODRIGUEZ H",
+      "name": "FERNANDO RODRIGUEZ",
       "age": 40
     },
     {
-      "id": "33000000",
-      "dni": "33000000",
-      "name": "Felipe Avello v",
-      "age": 32
+      "name": "JUAN",
+      "dni": "1233",
+      "age": 3,
+      "id": "1Ljr3al"
     }
   ],
   "posts": [
